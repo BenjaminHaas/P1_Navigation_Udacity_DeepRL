@@ -21,7 +21,7 @@ print("Using GPU" if torch.cuda.is_available() else "Using CPU")
 class Agent():
     """Interacts with and learns from the environment."""
 
-    def __init__(self, state_size, action_size, seed):
+    def __init__(self, state_size, action_size, seed, weights=None):
         """Initialize an Agent object.
         
         Params
@@ -38,6 +38,11 @@ class Agent():
         self.qnetwork_local = QNetwork(state_size, action_size, seed).to(device)
         self.qnetwork_target = QNetwork(state_size, action_size, seed).to(device)
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=LR)
+
+        # Load network weights
+        if weights:
+            self.qnetwork_local.load_state_dict(torch.load(weights))
+            print("Loaded weights file", weights)
 
         # Replay memory
         self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, seed)
