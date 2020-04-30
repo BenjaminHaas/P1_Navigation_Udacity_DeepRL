@@ -18,7 +18,7 @@ class QNetwork(nn.Module):
         super(QNetwork, self).__init__()
         self.seed = torch.manual_seed(seed)
         
-        hidden_units = 1024
+        hidden_units = 64
         
         self.fc1 = nn.Linear(state_size, hidden_units)
         self.fc2 = nn.Linear(hidden_units, hidden_units)
